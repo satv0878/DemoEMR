@@ -14,7 +14,7 @@
   </div>
    <v-spacer></v-spacer>
   <div class="text-xs-right">
-    <span class="white--text"  style=" font-size:large;">Demo EMR 1.2</span>
+    <span class="white--text"  style=" font-size:large;">Demo EMR 1.3</span>
   </div>
 
 </v-toolbar>
