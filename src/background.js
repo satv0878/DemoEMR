@@ -51,7 +51,7 @@ function createWindow () {
 
 function sendStatusToWindow(text) {
   log.info(text);
-  win.webContents.send('message', text);
+  if (!process.env.IS_TEST) win.webContents.send('message', text);
 }
 
 
