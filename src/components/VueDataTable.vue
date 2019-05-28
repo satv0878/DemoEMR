@@ -270,6 +270,7 @@ sheet: false,
         "MeasurementTime": "",
         "UserId": "",
         "PatientId": "",
+        "HL7Message": "",
         "MeasurementDevice": {
             "DeviceId": "",
             "DeviceModel": "",
@@ -353,6 +354,7 @@ self.tableData.unshift(
         "MeasurementTime":time,
         "UserId": user ,
         "PatientId":pv1.getComponent(19, 1),
+        "HL7Message": req.msg,
         "MeasurementDevice": {
             "DeviceId": "",
             "DeviceModel": "",

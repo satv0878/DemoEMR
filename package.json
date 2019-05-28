@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "DemoEMR",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
+    "gh-publish": "electron-builder --x64 -p always",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
@@ -21,6 +22,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
+    "electron-updater": "^4.0.6",
     "material-design-icons-iconfont": "^5.0.1",
     "node": "^12.3.0",
     "shelljs": "^0.8.3",

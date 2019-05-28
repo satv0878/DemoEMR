@@ -1,5 +1,13 @@
 'use strict'
 
+require('update-electron-app')(
+  {
+    repo: 'https://github.com/satv0878/DemoEMR.git',
+    updateInterval: '5 minutes',
+  }
+
+)
+
 import { app, protocol, BrowserWindow } from 'electron'
 import {
   createProtocol,
