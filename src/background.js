@@ -1,12 +1,7 @@
 'use strict'
 
-require('update-electron-app')(
-  {
-    repo: 'https://github.com/satv0878/DemoEMR.git',
-    updateInterval: '5 minutes',
-  }
+const {autoUpdater} = require("electron-updater");
 
-)
 
 import { app, protocol, BrowserWindow } from 'electron'
 import {
@@ -42,6 +37,20 @@ function createWindow () {
     win = null
   })
 }
+
+
+// when the update is ready, notify the BrowserWindow
+autoUpdater.on('update-downloaded', (info) => {
+  win.webContents.send('updateReady')
+});
+app.on('ready', function() {
+createDefaultWindow();
+autoUpdater.checkForUpdates();
+});
+ipcMain.on("quitAndInstall", (event, arg) => {
+  autoUpdater.quitAndInstall();
+})
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
