@@ -20,14 +20,13 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow () {
   // Create the browser window.
-
   
   win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
     nodeIntegration: true
@@ -46,42 +45,36 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
-}
 
 
-function sendStatusToWindow(text) {
-  log.info(text);
-  if (!process.env.IS_TEST) win.webContents.send('message', text);
 }
 
 
 autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
+  log.info('Checking for update...');
 })
 autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
+  log.info('Update available.');
 })
 autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
+  log.info('Update not available.');
 })
 autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
+  log.info('Error in auto-updater. ' + err);
 })
 autoUpdater.on('download-progress', (progressObj) => {
   let log_message = "Download speed: " + progressObj.bytesPerSecond;
   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
   log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  sendStatusToWindow(log_message);
+  log.info(log_message);
 })
 autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded');
+  log.info('Update downloaded');
 });
-
 
 app.on('ready', function()  {
   autoUpdater.checkForUpdatesAndNotify();
 });
-
 
 
 
