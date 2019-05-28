@@ -19,6 +19,8 @@ protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true
 
 function createWindow () {
   // Create the browser window.
+
+  autoUpdater.checkForUpdates();
   win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
     nodeIntegration: true
   } })
@@ -43,10 +45,9 @@ function createWindow () {
 autoUpdater.on('update-downloaded', (info) => {
   win.webContents.send('updateReady')
 });
-app.on('ready', function() {
-createWindow();
-autoUpdater.checkForUpdates();
-});
+
+
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
