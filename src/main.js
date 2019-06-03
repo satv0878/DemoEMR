@@ -10,9 +10,14 @@ import Vuetify from 'vuetify'
 
 import 'vuetify/dist/vuetify.min.css'
 import { library ,dom } from '@fortawesome/fontawesome-svg-core'
-import { faUserCircle, faWeightHanging ,faBalanceScale, faLevelUpAlt, faArrowUp} from '@fortawesome/free-solid-svg-icons'
+import { faWeightHanging ,faBalanceScale, faLevelUpAlt, faArrowUp} from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle} from '@fortawesome/free-regular-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
 
 // main.js
 import 'material-design-icons-iconfont/dist/material-design-icons.css'

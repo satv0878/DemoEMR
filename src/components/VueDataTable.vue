@@ -5,16 +5,20 @@
 
  <v-img>
 
-
-
-<v-toolbar color="black darken-4" >
-<div>
-    <span><span class="fas fa-list-old-style" style="color:#ED252A"></span>
-</span>
+<v-toolbar color="#191919" >
+<div> 
+   <span class="fas fa-list-old-style" style="color:#ED252A"></span>
+</div>
+ <v-divider class="ma-2" vertical inset></v-divider>
+  <div>
+    <span class="white--text" style=" font-size:large">EMR</span>
   </div>
-   <v-spacer></v-spacer>
-  <div class="text-xs-right">
-    <span class="white--text"  style=" font-size:large;">EMR System v1.1.5</span>
+  <v-spacer class="ma-2"></v-spacer>
+  <div>
+    <span class="white--text" >User: </span>
+    <span class="white--text" style=" font-size:large" > {{this.tableData[0].UserId}}</span>
+    <v-divider class="ma-2" vertical inset></v-divider>
+   <font-awesome-icon :icon="['far', 'user-circle']"   size="2x"  style="color:#323232"/>
   </div>
 
 </v-toolbar>
@@ -22,52 +26,24 @@
   <v-container grid-list-md text-xs-center>
 
     <v-layout  row wrap>
-     <v-flex xs12 pa-2>
-   <v-card
-      class="mx-auto">
-     <v-layout row align-center>
-       <v-flex xs1>
-        <v-card-title User>
-          <font-awesome-icon  size="3x" icon="user-circle" style="color:LightGray"/>
-         </v-card-title>
-        </v-flex>
-        <v-flex xs1>
-          <v-card-text>
-            <div class="headline" >
-           User
-           </div>
-          </v-card-text>
-           </v-flex>
-            <v-flex xs9 pa-3>
-          <div class="text-xs-right" >
-            <h1 v-if="tableData[1]">{{this.tableData[0].UserId}}</h1>
-          </div>
-           </v-flex>
-         </v-layout>
-      </v-card>
-   </v-flex>
 
-
-  <v-flex xs12 pa-2 mb-3>
+     
+  <v-flex lg6 pa-2>
      <v-card
-      class="mx-auto">
-     <v-layout row >
-       <v-flex  xs1>
+      class="mx-auto" :flat = true>
+     <v-layout column >
+       <v-flex>
         <v-card-title Patient>
-          <font-awesome-icon  size="3x" icon="user-circle" style="color:LightGray" />
+            <div class="text-xs-left"  style="font-weight:bold" >Patient</div>
+            <div class="text-xs-left" >- identification</div>
          </v-card-title>
          </v-flex>
-        <v-flex xs1>
-          <v-card-text>
-            <div class="headline" >
-           Patient
-           </div>
-          </v-card-text>
 
-           </v-flex>
-          <v-flex  xs9 pa-3>
+          <v-divider class="ma-3"></v-divider>
+
+        <v-flex>
           <div class="text-xs-right" >
-            <h1 v-if="tableData[1]"> {{this.tableData[0].PatientId}}</h1>
+            <h1 v-if="tableData[1]">{{this.tableData[0].PatientId}}</h1>
           </div>
            </v-flex>
          </v-layout>
@@ -75,111 +51,136 @@
    </v-flex>
 
 
-  <v-flex xs12 pa-2 >
-   <v-card
-      class="mx-auto">
-     <v-layout row>
-       <v-flex xs1 >
+     <v-flex lg6 pa-2>
+     <v-card
+      class="mx-auto" :flat = true>
+     <v-layout column >
+       <v-flex>
         <v-card-title Device>
-         <font-awesome-icon  size="3x" icon="balance-scale" style="color:LightGray"/>
-          </v-card-title>
-        </v-flex>
-        <v-flex  xs1>
-          <v-card-text>
-            <div class="headline" >
-           Device
-           </div>
-          </v-card-text>
-      </v-flex>
-       <v-flex xs9 pa-1>
+            <div class="text-xs-left"  style=" font-weight:bold" >Device</div>
+            <div class="text-xs-left" >- name</div>
+         </v-card-title>
+         </v-flex>
+
+          <v-divider class="ma-3"></v-divider>
+
+        <v-flex>
           <div class="text-xs-right" >
-            <h1 v-if="tableData[1]">{{this.device}}</h1>
+              <h1 v-if="tableData[1]">{{this.tableData[0].MeasurementDevice.DeviceName}}{{this.tableData[0].MeasurementDevice.DeviceSerialnumber}}</h1>
           </div>
-            <div class="text-xs-right">
-            <span>{{this.serialnumber}}</span>
-          </div>
-      </v-flex>
-        </v-layout>
+           </v-flex>
+         </v-layout>
       </v-card>
    </v-flex>
 
-  <v-flex xs6 pa-2>
+  <v-flex md6 pa-2>
    <v-card
-      class="mx-auto">
-     <v-layout row>
-       <v-flex xs2>
+      class="mx-auto" :flat = true>
+     <v-layout column>
+       <v-flex >
         <v-card-title Weight>
-          <font-awesome-icon  size="3x" icon="weight-hanging" style="color:LightGray"/>
-            </v-card-title>
-        </v-flex>
-        <v-flex xs2 pa-2>
-          <div>
-            <h3 class="headline mb-0">Weight</h3>
-          </div>
-      </v-flex>
-      <v-flex v-if="tableData[1]" xs6 pa-1>
-          <div v-if="tableData[1]" class="text-xs-right">
-            <h1 v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementValue}}</h1>
-            <h1 v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementValue}}</h1>
-            <h1 v-else>-</h1>
-          </div>
-          <div v-if="tableData[1]" class="text-xs-right">
+            <div class="text-xs-left"  style=" font-weight:bold" >Weight - </div>
+                <div v-if="tableData[1]" class="text-xs-right">
             <span v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementUnit}}</span>
             <span v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementUnit}}</span>
           </div>
+            </v-card-title>
+        </v-flex>
+
+        
+          <v-divider class="ma-3"></v-divider>
+
+
+      <v-flex v-if="tableData[1]" xs6 pr-4>
+          <div v-if="tableData[1]" class="text-xs-right">
+            <h1 v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementValue}} {{this.tableData[0].MeasurementUnit}}</h1>
+            <h1 v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementValue}} {{this.tableData[1].MeasurementUnit}}</h1>
+            <h1 v-else>-</h1>
+          </div>
+
       </v-flex>
         </v-layout>
       </v-card>
 
    </v-flex>
-     <v-flex xs6 pa-2>
+     <v-flex md6 pa-2>
    <v-card
-      class="mx-auto">
-     <v-layout row>
+      class="mx-auto" :flat = true>
+     <v-layout column>
        <v-flex xs2>
         <v-card-title Weight>
-          <font-awesome-icon  size="3x" icon="arrow-up" style="color:LightGray"/>
-            </v-card-title>
-        </v-flex>
-        <v-flex xs2 pa-2>
-          <div>
-            <h3 class="headline mb-0">Height</h3>
-            <span></span>
-          </div>
-      </v-flex>
-        <v-flex xs6 pa-1>
-          <div v-if="tableData[1]" class="text-xs-right">
-            <h1 v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementValue}}</h1>
-            <h1 v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementValue}}</h1>
-            <h1 v-else>-</h1>
-          </div>
-          <div v-if="tableData[1]" class="text-xs-right">
+                 <div class="text-xs-left"  style=" font-weight:bold" >Height - </div>
+     
+            <div v-if="tableData[1]" class="text-xs-right">
             <span v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementUnit}}</span>
             <span v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementUnit}}</span>
 
           </div>
+            </v-card-title>
+        </v-flex>
+        
+          <v-divider class="ma-3"></v-divider>
+        <v-flex >
+
+      </v-flex>
+        <v-flex xs6 pr-4>
+          <div v-if="tableData[1]" class="text-xs-right">
+            <h1 v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementValue}} {{this.tableData[0].MeasurementUnit}}</h1>
+            <h1 v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementValue}} {{this.tableData[1].MeasurementUnit}}</h1>
+            <h1 v-else>-</h1>
+          </div>
 
         </v-flex>
         </v-layout>
       </v-card>
    </v-flex>
-
+   
 
 
   <v-flex xs12 pa-2 mt-3>
-      <v-data-table
+      <!--v-data-table
           :items="tableData"
           :headers="headers"
-          class ="elevation-1">
-    <template slot="items" slot-scope="props">
+      
+          :flat = true
+          
+          -->
+    <!--template slot="items" slot-scope="props" :style="{backgroundColor: (props.item.PatientId  = 12345679654 ? 'red' : 'transparent' ) }">
       <td class="text-xs-left">{{ props.item.PatientId }}</td>
       <td class="text-xs-left">{{ props.item.UserId }}</td>
       <td class="text-xs-left">{{ props.item.MeasurementType }}</td>
       <td class="text-xs-left">{{ props.item.MeasurementValue }}</td>
       <td class="text-xs-left">{{ props.item.MeasurementUnit }}</td>
       <td class="text-xs-left">{{ props.item.MeasurementTime }}</td>
-    </template>
-  </v-data-table>
+    </template-->
+
+<template>
+  <div>
+
+  <b-container fluid>
+    <b-table   :items="tableData" :fields="headers" :tbody-tr-class="rowClass"  @filtered="onFiltered" :filter="filter" :current-page="currentPage"  :per-page="perPage" ></b-table>
+    <!-- User Interface controls -->
+    <b-row>
+      <b-col md="6" class="my-1">
+        <b-form-group label-cols-sm="3" label="Per page" class="mb-0">
+          <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
+        </b-form-group>
+      </b-col>
+      <b-col md="6" class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          class="my-0"
+        ></b-pagination>
+      </b-col>
+    </b-row>
+
+
+    </b-container>
+  </div>
+</template>
+
 
    </v-flex>
     </v-layout>
@@ -189,9 +190,24 @@
 
 </v-img>
 
+<v-snackbar
+      v-model="snackbar"
+      :vertical = true
+      :color = "colorSnackbar" 
+      :top= true
+      :timeout= 6000
 
-
-
+    >
+    <div h3 class="headline pr-5 pl-5 mr-5 ml-5 pt-3"  v-if="tableData[1]">
+     {{this.tableData[0].PatientId}}
+     </div>
+      <v-btn
+        color="black"
+        flat
+        @click="snackbar = false"
+      >
+      </v-btn>
+    </v-snackbar>
 
 
 
@@ -230,13 +246,13 @@
       </v-bottom-sheet>
 
 
+
       </div>
 </v-app>
 
 </template>
 
 <script>
-import _ from 'lodash';
 
 export default {
 
@@ -246,20 +262,58 @@ export default {
 
     data() {
         return {
+ totalRows: 1,
+  filter: null,
+          currentPage: 1,
+        perPage: 5,
+        pageOptions: [5, 10, 15],
         
-
+snackbar: false,
 sheet: false,
+colorSnackbar: 'success',
 
+          headers: [
+            { key: 'PatientId', 
+              sortable: false, 
+              label: 'Patient'
+            },
+            
+            { key: 'MeasurementType', 
+              sortable: false, 
+              label: 'Type', 
+              align: "right"
+            },
 
-          headers:
-          [
-          { text: 'Patient ID',align: 'left',sortable: false,value: 'PatientId'},
-          { text: 'User ID', value: 'UserId', sortable: false, align: 'left' },
-          { text: 'Type', value: 'MeasurementType', sortable: false, align: 'left', selected: 'true' },
-          { text: 'Value', value: 'MeasurementValue', sortable: false, align: 'left' },
-          { text: 'Unit', value: 'MeasurementUnit', sortable: false, align: 'left' },
-          { text: 'Time', value: 'MeasurementTime', sortable: false, align: 'left' },
-          ],
+            { key: 'MeasurementValue', 
+              sortable: false, 
+              label: 'Value'
+            },
+
+            { key: 'MeasurementUnit', 
+              sortable: false, 
+              label: 'Unit'
+            },
+
+            { key: 'MeasurementTime', 
+              sortable: false, 
+              label: 'Time'
+
+            },
+
+            { key: 'UserId', 
+              sortable: false, 
+              label: 'User ID'
+              
+            }
+], 
+          //[
+          //{ text: 'Patient ID',align: 'left',sortable: false,value: 'PatientId'},
+          //{ text: 'User ID', value: 'UserId', sortable: false, align: 'left' },
+          //{ text: 'Type', value: 'MeasurementType', sortable: false, align: 'left', selected: 'true' },
+          //{ text: 'Value', value: 'MeasurementValue', sortable: false, align: 'left' },
+          //{ text: 'Unit', value: 'MeasurementUnit', sortable: false, align: 'left' },
+          //{ text: 'Time', value: 'MeasurementTime', sortable: false, align: 'left' },
+          //],
             tableData: [
     {
         "MeasurementId": "",
@@ -300,6 +354,8 @@ sheet: false,
 
     mounted: function()
     {
+
+        this.totalRows = this.tableData.length
         //this.fetchEventsList();
         //this.timer = setInterval(this.fetchEventsList, 1000)
 
@@ -316,7 +372,7 @@ var app = hl7.tcp();
 
 var test=app.use(function( req, res, next ) {
   //req.msg is the HL7 message
-
+  self.snackbar = true
   var parser = new hl7.Parser();
 
 var pid = req.msg.getSegment('PID');
@@ -338,6 +394,8 @@ req.msg.getSegments("OBX").forEach(function(segment) {
   var type = segment.fields[2].value[0][0];
   var unit = segment.fields[5].value[0][0];
   var time = segment.fields[13].value[0][0];
+  var deviceName = segment.fields[17].value[0][0];
+  //var serialnumber = segment.fields[17][4].value[0][0];
 
 
 if(value != '')
@@ -358,7 +416,7 @@ self.tableData.unshift(
         "MeasurementDevice": {
             "DeviceId": "",
             "DeviceModel": "",
-            "DeviceName": "",
+            "DeviceName": deviceName,
             "DeviceSerialnumber": "",
             "DeviceHardwareID": ""
         }
@@ -370,8 +428,6 @@ self.tableData.unshift(
 
 
 })
-
-
 
 
 
@@ -405,107 +461,24 @@ app.use(function(err, req, res, next) {
 });
 
 //Listen on port 7777
-app.start(7777);
+app.start(9007);
 ///////////////////SERVER/////////////////////
 
+}
+,
+methods:{
 
+      rowClass() {
+      //return 'table-success'
+      }, 
 
-          },
+      onFiltered(filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length
+        this.currentPage = 1
+      }
 
-
-  methods:
-  {
-
- 
-
-  
-
-  
-
-    fetchEventsList()
-    {
-
-        //var currentUrl = window.location.origin+'/emr/measurement'
-      
-
-        if(this.tableData[0].MeasurementTime && this.tableData[1].MeasurementTime)
-        {
-
-        if (this.tableData[0].MeasurementTime == this.tableData[1].MeasurementTime)
-        {
-          if (this.tableData[0].MeasurementType == 'Weight')
-          {
-              this.weight =  this.tableData[0].MeasurementValue;
-              this.height = this.tableData[1].MeasurementValue;
-
-              this.weightunit =  this.tableData[0].MeasurementUnit
-              this.heightunit = this.tableData[1].MeasurementUnit;
-
-              this.device = this.tableData[0].MeasurementDevice.DeviceName
-              this.serialnumber = this.tableData[0].MeasurementDevice.DeviceSerialnumber
-              this.patientid = this.tableData[0].PatientId
-              this.userid = this.tableData[0].UserId
-
-          }
-          else if (this.tableData[1].MeasurementType == 'Weight')
-          {
-            this.weight =  this.tableData[1].MeasurementValue;
-            this.height = this.tableData[0].MeasurementValue;
-            this.weightunit =  this.tableData[1].MeasurementUnit
-          this.heightunit = this.tableData[0].MeasurementUnit;
-
-              this.device = this.tableData[0].MeasurementDevice.DeviceName
-              this.serialnumber = this.tableData[0].MeasurementDevice.DeviceSerialnumber
-              this.patientid = this.tableData[0].PatientId
-              this.userid = this.tableData[0].UserId
-          }
-        }
-        else if ((this.tableData[0].MeasurementTime !== this.tableData[1].MeasurementTime))
-        {
-        if (this.tableData[0].MeasurementTime)
-        {
-          if (this.tableData[0].MeasurementType == 'Weight')
-          {
-              this.weight =  this.tableData[0].MeasurementValue;
-              this.height = "-"
-
-              this.weightunit =  this.tableData[0].MeasurementUnit
-              this.heightunit = "";
-
-              this.device = this.tableData[0].MeasurementDevice.DeviceName
-              this.serialnumber = this.tableData[0].MeasurementDevice.DeviceSerialnumber
-              this.patientid = this.tableData[0].PatientId
-              this.userid = this.tableData[0].UserId
-          }
-          else
-          {
-              this.height = this.tableData[0].MeasurementValue;
-              this.weight = "-";
-
-              this.heightunit = this.tableData[0].MeasurementUnit;
-              this.weightunit =  "";
-
-              this.device = this.tableData[0].MeasurementDevice.DeviceName
-              this.serialnumber = this.tableData[0].MeasurementDevice.DeviceSerialnumber
-              this.patientid = this.tableData[0].PatientId
-              this.userid = this.tableData[0].UserId
-          }
-        }
-        }
-
-        }
-
-    },
-    cancelAutoUpdate: function()
-    {
-        clearInterval(this.timer)
-    }
-
-  },
-    beforeDestroy()
-    {
-        clearInterval(this.timer)
-    }
+}
 
 }
 </script>
@@ -528,6 +501,13 @@ table.v-table tbody tr td {
   color: black;
 }
 
+.mytable .v-table tbody tr:hover {
+  background: black;
+}
+
+.mytable .v-table tbody tr:not(:last-child) {
+    border-bottom: none;
+}
 
 
 </style>

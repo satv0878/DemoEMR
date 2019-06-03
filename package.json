@@ -1,6 +1,6 @@
 {
   "name": "DemoEMR",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "repository": "https://github.com/satv0878/DemoEMR",
   "author": "satv0878",
@@ -16,15 +16,16 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-
   "main": "background.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.18",
+    "@fortawesome/free-regular-svg-icons": "^5.8.2",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@xkeshi/vue-barcode": "^1.0.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.21",
     "core-js": "^2.6.5",
     "electron-log": "^3.0.5",
     "electron-updater": "^4.0.6",
