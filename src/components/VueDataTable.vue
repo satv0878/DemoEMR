@@ -372,8 +372,11 @@ var app = hl7.tcp();
 
 var test=app.use(function( req, res, next ) {
   //req.msg is the HL7 message
+
+console.log(req)
+
   self.snackbar = true
-  var parser = new hl7.Parser();
+  var parser = new hl7.Parser({segmentSeperator: '\n'}); 
 
 var pid = req.msg.getSegment('PID');
 var pv1 = req.msg.getSegment('PV1');
