@@ -6,16 +6,18 @@
  <v-img>
 
 <v-toolbar color="#191919" >
+  <v-toolbar-side-icon @click.stop="drawer = !drawer">
 <div> 
-   <span class="fas fa-list-old-style" style="color:#ED252A"></span>
+     <span class="fas fa-list-old-style" style="color:#ED252A"></span>
 </div>
+</v-toolbar-side-icon>
  <v-divider class="ma-2" vertical inset></v-divider>
   <div>
     <span class="white--text" style=" font-size:large">EMR</span>
   </div>
   <v-spacer class="ma-2"></v-spacer>
   <div>
-    <span class="white--text" >User: </span>
+    <span class="white--text" >{{UserLabel}}: </span>
     <span class="white--text" style=" font-size:large" > {{this.tableData[0].UserId}}</span>
     <v-divider class="ma-2" vertical inset></v-divider>
    <font-awesome-icon :icon="['far', 'user-circle']"   size="2x"  style="color:#323232"/>
@@ -34,14 +36,14 @@
      <v-layout column >
        <v-flex>
         <v-card-title Patient>
-            <div class="text-xs-left"  style="font-weight:bold" >Patient</div>
-            <div class="text-xs-left" >- identification</div>
+            <div class="text-xs-left pl-2"  style="font-weight:bold" >{{PatientLabel}} - </div>
+            <div class="text-xs-left pl-1" > identification</div>
          </v-card-title>
          </v-flex>
 
           <v-divider class="ma-3"></v-divider>
 
-        <v-flex>
+        <v-flex pr-4>
           <div class="text-xs-right" >
             <h1 v-if="tableData[1]">{{this.tableData[0].PatientId}}</h1>
           </div>
@@ -57,14 +59,14 @@
      <v-layout column >
        <v-flex>
         <v-card-title Device>
-            <div class="text-xs-left"  style=" font-weight:bold" >Device</div>
-            <div class="text-xs-left" >- name</div>
+            <div class="text-xs-left pl-2"  style=" font-weight:bold" >Device - </div>
+            <div class="text-xs-left pl-1" > name</div>
          </v-card-title>
          </v-flex>
 
           <v-divider class="ma-3"></v-divider>
 
-        <v-flex>
+        <v-flex pr-4>
           <div class="text-xs-right" >
               <h1 v-if="tableData[1]">{{this.tableData[0].MeasurementDevice.DeviceName}}{{this.tableData[0].MeasurementDevice.DeviceSerialnumber}}</h1>
           </div>
@@ -79,8 +81,8 @@
      <v-layout column>
        <v-flex >
         <v-card-title Weight>
-            <div class="text-xs-left"  style=" font-weight:bold" >Weight - </div>
-                <div v-if="tableData[1]" class="text-xs-right">
+            <div class="text-xs-left pl-2"  style=" font-weight:bold" >Weight - </div>
+                <div v-if="tableData[1]" class="text-xs-right pl-1">
             <span v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementUnit}}</span>
             <span v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementUnit}}</span>
           </div>
@@ -109,9 +111,9 @@
      <v-layout column>
        <v-flex xs2>
         <v-card-title Weight>
-                 <div class="text-xs-left"  style=" font-weight:bold" >Height - </div>
+                 <div class="text-xs-left pl-2"  style=" font-weight:bold" >Height - </div>
      
-            <div v-if="tableData[1]" class="text-xs-right">
+            <div v-if="tableData[1]" class="text-xs-right  pl-1">
             <span v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementUnit}}</span>
             <span v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementUnit}}</span>
 
@@ -136,51 +138,22 @@
    </v-flex>
    
 
-
-  <v-flex xs12 pa-2 mt-3>
-      <!--v-data-table
-          :items="tableData"
-          :headers="headers"
-      
-          :flat = true
-          
-          -->
-    <!--template slot="items" slot-scope="props" :style="{backgroundColor: (props.item.PatientId  = 12345679654 ? 'red' : 'transparent' ) }">
-      <td class="text-xs-left">{{ props.item.PatientId }}</td>
-      <td class="text-xs-left">{{ props.item.UserId }}</td>
-      <td class="text-xs-left">{{ props.item.MeasurementType }}</td>
-      <td class="text-xs-left">{{ props.item.MeasurementValue }}</td>
-      <td class="text-xs-left">{{ props.item.MeasurementUnit }}</td>
-      <td class="text-xs-left">{{ props.item.MeasurementTime }}</td>
-    </template-->
+    <v-flex md12 pa-2>
+   <v-card class="mx-auto" :flat = true>
 
 <template>
   <div>
 
-  <b-container fluid>
-    <b-table   :items="tableData" :fields="headers" :tbody-tr-class="rowClass"  @filtered="onFiltered" :filter="filter" :current-page="currentPage"  :per-page="perPage" ></b-table>
-    <!-- User Interface controls -->
-    <b-row>
-      <b-col md="6" class="my-1">
-        <b-form-group label-cols-sm="3" label="Per page" class="mb-0">
-          <b-form-select v-model="perPage" :options="pageOptions"></b-form-select>
-        </b-form-group>
-      </b-col>
-      <b-col md="6" class="my-1">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          class="my-0"
-        ></b-pagination>
-      </b-col>
-    </b-row>
+  <b-container fluid >
+    <b-table class="text-left ml-0"   :items="tableData" :fields="headers"   @filtered="onFiltered" :filter="filter" :current-page="currentPage"  :per-page="perPage" >
 
+    </b-table>
+    <!-- User Interface controls -->
 
     </b-container>
   </div>
 </template>
-
+</v-card>
 
    </v-flex>
     </v-layout>
@@ -216,35 +189,123 @@
 
 
 <div class="text-xs-center">
-      <v-bottom-sheet inset>
 
-        <v-btn round slot="activator"  color="black" dark>Barcodes</v-btn>
-        <v-card >
-          <v-list three-line >
-            <v-list-tile>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      dark
+      temporary
+    >
+         <v-toolbar flat>
+        <v-list-tile-title class="title" color="#191919">
+            Options
+          </v-list-tile-title>
+          </v-toolbar>
 
-              <v-list-tile-action>
+      <v-list class="pa-1">
+
+<v-text-field outline hint="Define your Patient / Member Label" Label="Patient Identifier"  value="Patient" v-model="PatientLabel" v-on:input="PatientLabelChange"></v-text-field>
+<v-text-field outline hint="Define your User / Trainer Label" Label="User Identifier"  value="User" v-model="UserLabel" v-on:input="UserLabelChange" ></v-text-field>
+ <v-divider></v-divider>
+        <v-list-tile avatar tag="div">
+
+          <v-list-tile-content>
+           Zoom
+          </v-list-tile-content>
+
+          <v-list-tile-action>
+    <v-btn fab dark color="color:#ED252A" @click="decrement()" v-model="zoom">
+      <v-icon dark>remove</v-icon>
+    </v-btn>
+          </v-list-tile-action>
+          <v-spacer></v-spacer>
+          <v-list-tile-action>
+    <v-btn fab dark color="color:#ED252A" @click="increment()" v-model="zoom">
+      <v-icon dark>add</v-icon>
+    </v-btn>
+          </v-list-tile-action>
+
+
+        </v-list-tile>
+
+ <v-divider></v-divider>
+
+          <v-list-tile>
+
+          <v-select
+            v-model="perPage"
+            :items="pageOptions"
+            attach
+            chips
+            label="Table Results Per Page"
+          ></v-select>
+
+          </v-list-tile>
+
+        <v-divider></v-divider>
+
+
+
+          <v-list-tile>
+
+          </v-list-tile>
+          
+          <v-list-tile>
+
+          </v-list-tile>
+              
+
+        <v-list-tile>
           <v-text-field
           v-model="uidBarcode"
             label="User ID"
+            maxlength="22" counter>
+            </v-text-field>
+          </v-list-tile>
 
-          ></v-text-field>
-                </v-list-tile-action>
+
+          <v-list-tile>
+
+          </v-list-tile>
+              
+           <v-list-tile>
                 <barcode v-bind:value="uidBarcode" :options="{ displayValue: false ,height: '40' , width:'1', format: 'CODE128' } "></barcode>
             </v-list-tile>
-              <v-list-tile>
-              <v-list-tile-action>
+
+            <v-list-tile>
+
+          </v-list-tile>
+              <v-divider></v-divider>
+
+         <v-list-tile>
+               
+               <v-list-tile-action>
           <v-text-field
            v-model="pidBarcode"
-            label="Patient ID"
-          ></v-text-field>
-                </v-list-tile-action>
-                <barcode v-model="pidBarcode" :options="{ displayValue: false , height: '40', width:'1', format: 'CODE128' }"></barcode>
-            </v-list-tile>
-          </v-list>
-        </v-card>
-      </v-bottom-sheet>
+            label="Patient ID" maxlength="22" counter ></v-text-field>
+          </v-list-tile-action>
+          </v-list-tile>
 
+            <v-list-tile>
+
+          </v-list-tile>
+
+            <v-list-tile >
+              
+                <barcode v-model="pidBarcode" :options="{ displayValue: false , height: '40', width:'1', format: 'CODE128' }"></barcode>
+              
+            </v-list-tile>
+
+            <v-list-tile>
+
+          </v-list-tile>
+<v-divider></v-divider>
+
+    
+
+       
+      </v-list>
+    </v-navigation-drawer>
 
 
       </div>
@@ -254,20 +315,29 @@
 
 <script>
 
+const {webFrame} = require('electron')
+
+// Set the zoom factor to 200%
+
+
 export default {
 
 
 
-
-
     data() {
+
+
         return {
- totalRows: 1,
-  filter: null,
-          currentPage: 1,
-        perPage: 5,
-        pageOptions: [5, 10, 15],
-        
+
+zoom: 1,
+drawer: null,
+totalRows: 1,
+filter: null,
+currentPage: 1,
+perPage: 5,
+pageOptions: [3 , 4 , 5, 10, 15],
+PatientLabel: 'Patient', 
+UserLabel: 'User', 
 snackbar: false,
 sheet: false,
 colorSnackbar: 'success',
@@ -275,13 +345,13 @@ colorSnackbar: 'success',
           headers: [
             { key: 'PatientId', 
               sortable: false, 
-              label: 'Patient'
-            },
+              label: 'Patient ID'
+              },
             
             { key: 'MeasurementType', 
               sortable: false, 
               label: 'Type', 
-              align: "right"
+              
             },
 
             { key: 'MeasurementValue', 
@@ -303,7 +373,6 @@ colorSnackbar: 'success',
             { key: 'UserId', 
               sortable: false, 
               label: 'User ID'
-              
             }
 ], 
           //[
@@ -362,7 +431,7 @@ colorSnackbar: 'success',
     },
 
           created:function(){
-   console.log(this.dataFromServer)
+   
 var self= this
   
 var hl7 = require('simple-hl7');
@@ -370,24 +439,12 @@ var hl7 = require('simple-hl7');
 ///////////////////SERVER/////////////////////
 var app = hl7.tcp();
 
-var test=app.use(function( req, res, next ) {
+app.use(function( req, res, next ) {
   //req.msg is the HL7 message
 
-console.log(req)
-
   self.snackbar = true
-  var parser = new hl7.Parser({segmentSeperator: '\n'}); 
-
-var pid = req.msg.getSegment('PID');
+  
 var pv1 = req.msg.getSegment('PV1');
-var obx = req.msg.getSegment('OBX');
-
-
-  console.log(pid)
-
-  console.log('******message received*****')
-  console.log(pid.getComponent(5, 2) + ' ' + pid.getComponent(5, 1));
-
 
 
 req.msg.getSegments("OBX").forEach(function(segment) {
@@ -443,20 +500,19 @@ self.tableData.unshift(
 
 
 
-app.use(function(req, res, next){
+app.use(function(req, res){
   //res.ack is the ACK
   //acks are created automatically
 
   //send the res.ack back
-  console.log('******sending ack*****')
   res.end()
 })
 
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   //error handler
   //standard error middleware would be
-  console.log('******ERROR*****')
-  console.log(err);
+
+
   var msa = res.ack.getSegment('MSA');
   msa.editField(1, 'AR');
   res.ack.addSegment('ERR', err.message);
@@ -471,6 +527,37 @@ app.start(9007);
 ,
 methods:{
 
+
+      UserLabelChange()
+      {
+      
+      this.headers[5].label = this.UserLabel + ' ID'
+      },
+
+            PatientLabelChange()
+      {
+      
+      this.headers[0].label = this.PatientLabel + ' ID'
+      },
+
+      decrement()
+      {
+        this.zoom =(this.zoom - 0.05);
+        webFrame.setZoomFactor(this.zoom);
+   
+      }, 
+      
+      increment()
+      {
+        this.zoom = (this.zoom + 0.05);
+        webFrame.setZoomFactor(this.zoom);
+          
+
+      }, 
+      setZoomFactor(value)
+      {
+          webFrame.setZoomFactor(value);      
+      },
       rowClass() {
       //return 'table-success'
       }, 
