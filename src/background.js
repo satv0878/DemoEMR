@@ -23,6 +23,19 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (myWindow) {
+      if (myWindow.isMinimized()) myWindow.restore()
+      myWindow.focus()
+    }
+  })
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{scheme: 'app', privileges: { secure: true, standard: true } }])
 
@@ -33,7 +46,7 @@ function createWindow () {
     nodeIntegration: true
   } })
 
-  //win.setMenuBarVisibility(false)
+  win.setMenuBarVisibility(false)
 
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -149,4 +162,6 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}
+
 }

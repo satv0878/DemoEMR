@@ -13,7 +13,7 @@
 </v-toolbar-side-icon>
  <v-divider class="ma-2" vertical inset></v-divider>
   <div>
-    <span class="white--text" style=" font-size:large">EMR</span>
+    <span class="white--text" style=" font-size:large">Demo System</span>
   </div>
   <v-spacer class="ma-2"></v-spacer>
   <div>
@@ -75,6 +75,7 @@
       </v-card>
    </v-flex>
 
+
   <v-flex md6 pa-2>
    <v-card
       class="mx-auto" :flat = true>
@@ -103,14 +104,16 @@
       </v-flex>
         </v-layout>
       </v-card>
-
    </v-flex>
+
+
+
      <v-flex md6 pa-2>
    <v-card
       class="mx-auto" :flat = true>
      <v-layout column>
-       <v-flex xs2>
-        <v-card-title Weight>
+       <v-flex >
+        <v-card-title Height>
                  <div class="text-xs-left pl-2"  style=" font-weight:bold" >Height - </div>
      
             <div v-if="tableData[1]" class="text-xs-right  pl-1">
@@ -122,10 +125,8 @@
         </v-flex>
         
           <v-divider class="ma-3"></v-divider>
-        <v-flex >
 
-      </v-flex>
-        <v-flex xs6 pr-4>
+        <v-flex v-if="tableData[1]" xs6 pr-4>
           <div v-if="tableData[1]" class="text-xs-right">
             <h1 v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementValue}} {{this.tableData[0].MeasurementUnit}}</h1>
             <h1 v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementValue}} {{this.tableData[1].MeasurementUnit}}</h1>
