@@ -146,8 +146,8 @@
   <div>
 
   <b-container fluid >
-    <b-table class="text-left ml-0"   :items="tableData" :fields="headers"   @filtered="onFiltered" :filter="filter" :current-page="currentPage"  :per-page="perPage" >
-
+    <b-table class="text-left ml-0" @row-clicked="showHL7Dialog" :items="tableData" :fields="headers" @filtered="onFiltered" :filter="filter" :current-page="currentPage"  :per-page="perPage" >
+    
     </b-table>
     <!-- User Interface controls -->
 
@@ -182,7 +182,6 @@
       >
       </v-btn>
     </v-snackbar>
-
 
 
 
@@ -301,12 +300,34 @@
 
           </v-list-tile>
 <v-divider></v-divider>
-
-    
-
-       
+          
       </v-list>
     </v-navigation-drawer>
+
+
+    <v-dialog v-model="dialog">
+      <v-card>
+        <v-card-title   class="headline grey lighten-2"
+          primary-title>
+          <span class="headline">HL7 Message</span>
+        </v-card-title>
+        <v-list dense>
+          <v-list-tile
+            v-for="msg in message"
+            :key="msg.Index"
+               @click="">
+            <v-list-tile-content>
+              <v-list-tile-title v-text="msg.Segment"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
 
       </div>
@@ -330,18 +351,29 @@ export default {
 
         return {
 
-zoom: 1,
-drawer: null,
-totalRows: 1,
-filter: null,
-currentPage: 1,
-perPage: 5,
-pageOptions: [3 , 4 , 5, 10, 15],
-PatientLabel: 'Patient', 
-UserLabel: 'User', 
-snackbar: false,
-sheet: false,
-colorSnackbar: 'success',
+          message: [
+          {
+
+            Index: '',
+            Type:'',
+            Segment: ''  
+          
+            
+          }
+          ], 
+          dialog: false, 
+          zoom: 1,
+          drawer: null,
+          totalRows: 1,
+          filter: null,
+          currentPage: 1,
+          perPage: 5,
+          pageOptions: [3 , 4 , 5, 10, 15],
+          PatientLabel: 'Patient', 
+          UserLabel: 'User', 
+          snackbar: false,
+          sheet: false,
+          colorSnackbar: 'success',
 
           headers: [
             { key: 'PatientId', 
@@ -394,7 +426,8 @@ colorSnackbar: 'success',
         "MeasurementTime": "",
         "UserId": "",
         "PatientId": "",
-        "HL7Message": "",
+        HL7MessageHeader : [],
+        HL7Message: [],
         "MeasurementDevice": {
             "DeviceId": "",
             "DeviceModel": "",
@@ -447,6 +480,8 @@ app.use(function( req, res, next ) {
   
 var pv1 = req.msg.getSegment('PV1');
 
+console.log(req.msg)
+console.log(req.msg.toString())
 
 req.msg.getSegments("OBX").forEach(function(segment) {
 
@@ -473,7 +508,8 @@ self.tableData.unshift(
         "MeasurementTime":time,
         "UserId": user ,
         "PatientId":pv1.getComponent(19, 1),
-        "HL7Message": req.msg,
+        HL7MessageHeader : req.msg.header, 
+        HL7Message: req.msg.segments,
         "MeasurementDevice": {
             "DeviceId": "",
             "DeviceModel": "",
@@ -489,7 +525,6 @@ self.tableData.unshift(
 
 
 })
-
 
 
 
@@ -526,8 +561,43 @@ app.start(9007);
 
 }
 ,
+
+
 methods:{
 
+      showHL7Dialog(item, index, event)
+      {
+        this.message =[]
+
+        var self= this
+
+        var hl7 = require('simple-hl7');
+        this.dialog= true;
+        var segments = this.tableData[index].HL7Message
+        var header  =this.tableData[index].HL7MessageHeader
+        var parser = new hl7.Parser()
+
+
+     
+
+          self.message.push({Index: 0, Segment :parser.parseHeader(header.toString()).toString(), 
+                              Type: header.name.toString() })
+
+          for (var i = 0; i < segments.length; i++) {
+          
+             var returnString = segments[i].toString(header.delimiters);
+
+          self.message.push({Index: i+1 , Segment :returnString, 
+                              Type: segments[i].name.toString() })
+
+        
+            
+             if (i != segments.length - 1) {returnString = header.delimiters.segmentSeperator;}
+              
+             
+           }
+
+      }, 
 
       UserLabelChange()
       {
