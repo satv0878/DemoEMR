@@ -161,7 +161,6 @@
 
   </v-container>
 
-
 </v-img>
 
 <v-snackbar
@@ -170,7 +169,6 @@
       :color = "colorSnackbar" 
       :top= true
       :timeout= 6000
-
     >
     <div h3 class="headline pr-5 pl-5 mr-5 ml-5 pt-3"  v-if="tableData[1]">
      {{this.tableData[0].PatientId}}
@@ -187,121 +185,173 @@
 
 </v-content>
 
-
 <div class="text-xs-center">
 
     <v-navigation-drawer
       v-model="drawer"
       absolute
-      dark
       temporary
     >
-         <v-toolbar flat>
+
+         <v-toolbar flat >
+<v-toolbar-side-icon></v-toolbar-side-icon>
+
         <v-list-tile-title class="title" color="#191919">
-            Options
+            Settings
           </v-list-tile-title>
           </v-toolbar>
 
       <v-list class="pa-1">
 
+ 
+   
+      <v-list-group
+        no-action
+        prepend-icon="edit"
+      >
+
+      <template v-slot:activator>
+          <v-list-tile>
+             <v-tooltip right>
+                 <template v-slot:activator="{ on }">
+            <v-list-tile-title v-on="on">Notation</v-list-tile-title>
+            </template>
+              <span>Change the Notation of Patient and User to you customer specific notation (e.g. Fitness Member and Trainer) or language</span>
+            </v-tooltip>
+          </v-list-tile>
+        </template>
+
 <v-text-field outline hint="Define your Patient / Member Label" Label="Patient Identifier"  value="Patient" v-model="PatientLabel" v-on:input="PatientLabelChange"></v-text-field>
 <v-text-field outline hint="Define your User / Trainer Label" Label="User Identifier"  value="User" v-model="UserLabel" v-on:input="UserLabelChange" ></v-text-field>
- <v-divider></v-divider>
+
+
+        </v-list-group>
+
+
+
+      <v-list-group
+        no-action
+        prepend-icon="zoom_in"
+      >
+      <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-title>Zoom</v-list-tile-title>
+          </v-list-tile>
+        </template>
+
         <v-list-tile avatar tag="div">
 
-          <v-list-tile-content>
-           Zoom
-          </v-list-tile-content>
-
           <v-list-tile-action>
-    <v-btn fab dark color="color:#ED252A" @click="decrement()" v-model="zoom">
+    <v-btn flat   @click="decrement()" v-model="zoom">
       <v-icon dark>remove</v-icon>
     </v-btn>
           </v-list-tile-action>
           <v-spacer></v-spacer>
           <v-list-tile-action>
-    <v-btn fab dark color="color:#ED252A" @click="increment()" v-model="zoom">
+    <v-btn flat   @click="increment()" v-model="zoom">
       <v-icon dark>add</v-icon>
     </v-btn>
           </v-list-tile-action>
-
-
         </v-list-tile>
 
- <v-divider></v-divider>
 
+        </v-list-group>
+
+
+      <v-list-group
+         no-action
+        prepend-icon="table_chart"
+      >
+      
+
+      <template v-slot:activator>
+          <v-list-tile>
+             <v-tooltip right>
+                 <template v-slot:activator="{ on }">
+            <v-list-tile-title v-on="on">Measurement Table</v-list-tile-title>
+            </template>
+              <span>Change the length of the measurement result list.</span>
+            </v-tooltip>
+          </v-list-tile>
+        </template>
+
+      
+          <v-list-tile> </v-list-tile>
           <v-list-tile>
 
           <v-select
             v-model="perPage"
             :items="pageOptions"
             attach
-            chips
+            
             label="Table Results Per Page"
+            solo
           ></v-select>
 
           </v-list-tile>
 
-        <v-divider></v-divider>
+        </v-list-group>
 
 
-
-          <v-list-tile>
-
-          </v-list-tile>
-          
-          <v-list-tile>
-
-          </v-list-tile>
               
+      <v-list-group
+         no-action
+        prepend-icon="settings_remote"
+      >
+       <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-title>Barcodes</v-list-tile-title>
+          </v-list-tile>
+        </template>
+          <v-list-tile> </v-list-tile>
 
-        <v-list-tile>
           <v-text-field
           v-model="uidBarcode"
             label="User ID"
             maxlength="22" counter>
             </v-text-field>
-          </v-list-tile>
 
 
-          <v-list-tile>
 
-          </v-list-tile>
+          <v-list-tile></v-list-tile>
               
-           <v-list-tile>
+
                 <barcode v-bind:value="uidBarcode" :options="{ displayValue: false ,height: '40' , width:'1', format: 'CODE128' } "></barcode>
-            </v-list-tile>
+      
 
-            <v-list-tile>
+            <v-list-tile></v-list-tile>
 
-          </v-list-tile>
               <v-divider></v-divider>
 
-         <v-list-tile>
-               
-               <v-list-tile-action>
-          <v-text-field
-           v-model="pidBarcode"
-            label="Patient ID" maxlength="22" counter ></v-text-field>
-          </v-list-tile-action>
-          </v-list-tile>
+ 
+            
+                <v-text-field v-model="pidBarcode" label="Patient ID" maxlength="22" counter ></v-text-field>
+           
+      
 
-            <v-list-tile>
+            <v-list-tile> </v-list-tile>
 
-          </v-list-tile>
-
-            <v-list-tile >
-              
+            
                 <barcode v-model="pidBarcode" :options="{ displayValue: false , height: '40', width:'1', format: 'CODE128' }"></barcode>
-              
-            </v-list-tile>
+      
 
-            <v-list-tile>
 
-          </v-list-tile>
-<v-divider></v-divider>
+   
+
+        </v-list-group>
           
       </v-list>
+
+    <v-tooltip right>
+      <template v-slot:activator="{ on }">
+      <v-btn v-on="on"  large flat @click="fullscreen()">
+          Fullscreen
+          <v-icon large dark right>desktop_mac</v-icon>
+      </v-btn>
+      
+        </template>
+        <span>Click to switch and leave Fullscreen mode.</span>
+    </v-tooltip>
     </v-navigation-drawer>
 
 
@@ -351,6 +401,8 @@ export default {
 
         return {
 
+
+isFullscreen : false,  
           message: [
           {
 
@@ -368,7 +420,7 @@ export default {
           filter: null,
           currentPage: 1,
           perPage: 5,
-          pageOptions: [3 , 4 , 5, 10, 15],
+          pageOptions: [3,4,5,6,7,8,9,10,15,20,25,30,40,50],
           PatientLabel: 'Patient', 
           UserLabel: 'User', 
           snackbar: false,
@@ -564,6 +616,28 @@ app.start(9007);
 
 
 methods:{
+
+  fullscreen()
+  {
+
+    if (this.isFullscreen)
+    {
+      this.isFullscreen = false
+        var electron = require('electron');
+        var window = electron.remote.getCurrentWindow();
+        window.setFullScreen(this.isFullscreen);
+    }
+    else{
+      this.isFullscreen = true
+        var electron = require('electron');
+        var window = electron.remote.getCurrentWindow();
+        window.setFullScreen(this.isFullscreen);
+
+    }
+
+
+
+  }, 
 
       showHL7Dialog(item, index, event)
       {

@@ -8,7 +8,7 @@ import Vuetify from 'vuetify'
 
 import 'vuetify/dist/vuetify.min.css'
 import { library ,dom } from '@fortawesome/fontawesome-svg-core'
-import { faWeightHanging ,faBalanceScale, faLevelUpAlt, faArrowUp} from '@fortawesome/free-solid-svg-icons'
+import { faWeightHanging ,faBalanceScale, faLevelUpAlt, faArrowUp, faBarcode} from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle} from '@fortawesome/free-regular-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -24,7 +24,7 @@ import VueBarcode from '@xkeshi/vue-barcode';
 
 Vue.component(VueBarcode.name, VueBarcode);
 
-library.add(faUserCircle, faWeightHanging, faBalanceScale, faLevelUpAlt, faArrowUp)
+library.add(faUserCircle, faWeightHanging, faBalanceScale, faLevelUpAlt, faArrowUp, faBarcode)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
