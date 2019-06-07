@@ -76,9 +76,9 @@ function createWindow () {
 autoUpdater.on('update-available', () => {
   dialog.showMessageBox({
     type: 'info',
-    title: 'Found Updates',
-    message: 'Found updates, do you want update now?',
-    buttons: ['Sure', 'No']
+    title: 'New Update available',
+    message: 'An Update is available, do you want update now?',
+    buttons: ['Yes', 'No']
   }, (buttonIndex) => {
     if (buttonIndex === 0) {
       autoUpdater.downloadUpdate()

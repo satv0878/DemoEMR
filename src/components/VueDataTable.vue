@@ -311,34 +311,20 @@
             maxlength="22" counter>
             </v-text-field>
 
-
-
           <v-list-tile></v-list-tile>
-              
-
                 <barcode v-bind:value="uidBarcode" :options="{ displayValue: false ,height: '40' , width:'1', format: 'CODE128' } "></barcode>
       
-
             <v-list-tile></v-list-tile>
 
               <v-divider></v-divider>
-
- 
             
                 <v-text-field v-model="pidBarcode" label="Patient ID" maxlength="22" counter ></v-text-field>
            
-      
-
             <v-list-tile> </v-list-tile>
 
-            
-                <barcode v-model="pidBarcode" :options="{ displayValue: false , height: '40', width:'1', format: 'CODE128' }"></barcode>
+              <barcode v-model="pidBarcode" :options="{ displayValue: false , height: '40', width:'1', format: 'CODE128' }"></barcode>
       
-
-
-   
-
-        </v-list-group>
+          </v-list-group>
           
       </v-list>
 
@@ -366,9 +352,33 @@
             v-for="msg in message"
             :key="msg.Index"
                @click="">
-            <v-list-tile-content>
-              <v-list-tile-title v-text="msg.Segment"></v-list-tile-title>
-            </v-list-tile-content>
+         
+              <span v-for="(list, index ) in msg.Segment">
+
+    <span  v-if="index === 0" style="font-weight:bolder;color:green;">{{list}}</span>
+    <span  v-else-if="index === 6 && msg.Index === 0" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+    <span  v-else-if="index === 19 && msg.Index === 2" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+    <span  v-else-if="index === 7 && msg.Index === 3" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+    <span  v-else-if="index === 5 && msg.Index === 4" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+    <span  v-else-if="index === 5 && msg.Index === 5" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 16 && msg.Index === 4" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 16 && msg.Index === 5" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 18 && msg.Index === 4" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 18 && msg.Index === 5" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 14 && msg.Index === 4" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 14 && msg.Index === 5" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 6 && msg.Index === 4" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+     <span  v-else-if="index === 6 && msg.Index === 5" style="font-family:'Arial Black';font-weight:bolder;color:red;">{{list}}</span>
+
+    <span  v-else-if="index != 0" style="font-weight:bold;">{{list}}</span>
+
+   
+
+    <span  v-if="index != msg.Segment.length-1" style="font-weight:bolder;color:blue;">|</span>
+
+  
+  </span>
+       
           </v-list-tile>
         </v-list>
 
@@ -654,23 +664,18 @@ methods:{
 
      
 
-          self.message.push({Index: 0, Segment :parser.parseHeader(header.toString()).toString(), 
+          self.message.push({Index: 0, Segment :parser.parseHeader(header.toString()).toString().split('|'), 
                               Type: header.name.toString() })
 
           for (var i = 0; i < segments.length; i++) {
           
-             var returnString = segments[i].toString(header.delimiters);
+             var returnString = segments[i].toString(header.delimiters).split('|');
 
           self.message.push({Index: i+1 , Segment :returnString, 
                               Type: segments[i].name.toString() })
 
-        
-            
              if (i != segments.length - 1) {returnString = header.delimiters.segmentSeperator;}
-              
-             
            }
-
       }, 
 
       UserLabelChange()
