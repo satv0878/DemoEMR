@@ -201,6 +201,8 @@
           </v-list-tile-title>
           </v-toolbar>
 
+           <v-layout column fill-height>
+
       <v-list class="pa-1">
 
  
@@ -338,6 +340,12 @@
         </template>
         <span>Click to switch and leave Fullscreen mode.</span>
     </v-tooltip>
+
+    <v-spacer vertical></v-spacer>
+
+    <span>Current Version: {{appVersion}}</span>
+
+    </v-layout>
     </v-navigation-drawer>
 
 
@@ -399,15 +407,12 @@
 
 const {webFrame} = require('electron')
 
-// Set the zoom factor to 200%
-
 
 export default {
 
 
 
     data() {
-
 
         return {
 
@@ -423,6 +428,7 @@ isFullscreen : false,
             
           }
           ], 
+           appVersion : require('electron').remote.app.getVersion(), 
           dialog: false, 
           zoom: 1,
           drawer: null,
@@ -470,14 +476,7 @@ isFullscreen : false,
               label: 'User ID'
             }
 ], 
-          //[
-          //{ text: 'Patient ID',align: 'left',sortable: false,value: 'PatientId'},
-          //{ text: 'User ID', value: 'UserId', sortable: false, align: 'left' },
-          //{ text: 'Type', value: 'MeasurementType', sortable: false, align: 'left', selected: 'true' },
-          //{ text: 'Value', value: 'MeasurementValue', sortable: false, align: 'left' },
-          //{ text: 'Unit', value: 'MeasurementUnit', sortable: false, align: 'left' },
-          //{ text: 'Time', value: 'MeasurementTime', sortable: false, align: 'left' },
-          //],
+ 
             tableData: [
     {
         "MeasurementId": "",
@@ -559,7 +558,6 @@ req.msg.getSegments("OBX").forEach(function(segment) {
 if(value != '')
   {
 
-
 self.tableData.unshift(
    {
         "MeasurementId": "",
@@ -584,12 +582,7 @@ self.tableData.unshift(
   )
   }
 
-
-
 })
-
-
-
 
   next();
   
