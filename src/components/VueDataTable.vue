@@ -25,14 +25,14 @@
 
 </v-toolbar>
 
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md >
 
-    <v-layout  row wrap>
+    <v-layout row justify-center>
 
      
   <v-flex lg6 pa-2>
      <v-card
-      class="mx-auto" :flat = true>
+      class="mx-auto" :flat = true width="540">
      <v-layout column >
        <v-flex>
         <v-card-title Patient>
@@ -55,7 +55,7 @@
 
      <v-flex lg6 pa-2>
      <v-card
-      class="mx-auto" :flat = true>
+      class="mx-auto" :flat = true width="540">
      <v-layout column >
        <v-flex>
         <v-card-title Device>
@@ -78,7 +78,7 @@
 
   <v-flex md6 pa-2>
    <v-card
-      class="mx-auto" :flat = true>
+      class="mx-auto" :flat = true width="540">
      <v-layout column>
        <v-flex >
         <v-card-title Weight>
@@ -110,7 +110,7 @@
 
      <v-flex md6 pa-2>
    <v-card
-      class="mx-auto" :flat = true>
+      class="mx-auto" :flat = true width="540">
      <v-layout column>
        <v-flex >
         <v-card-title Height>
@@ -186,15 +186,16 @@
 </v-content>
 
 <div class="text-xs-center">
-
     <v-navigation-drawer
+      dark
       v-model="drawer"
       absolute
-      temporary
-    >
+      temporary>
 
          <v-toolbar flat >
-<v-toolbar-side-icon></v-toolbar-side-icon>
+<v-toolbar-side-icon >
+  <v-icon>more_vert</v-icon>
+</v-toolbar-side-icon>
 
         <v-list-tile-title class="title" color="#191919">
             Settings
@@ -210,13 +211,14 @@
       <v-list-group
         no-action
         prepend-icon="edit"
+        active-class="error--text"
       >
 
       <template v-slot:activator>
           <v-list-tile>
              <v-tooltip right>
                  <template v-slot:activator="{ on }">
-            <v-list-tile-title v-on="on">Notation</v-list-tile-title>
+            <v-list-tile-title v-on="on"  >Notation</v-list-tile-title>
             </template>
               <span>Change the Notation of Patient and User to you customer specific notation (e.g. Fitness Member and Trainer) or language</span>
             </v-tooltip>
@@ -234,6 +236,7 @@
       <v-list-group
         no-action
         prepend-icon="zoom_in"
+        active-class="error--text"
       >
       <template v-slot:activator>
           <v-list-tile>
@@ -263,6 +266,7 @@
       <v-list-group
          no-action
         prepend-icon="table_chart"
+        active-class="error--text"
       >
       
 
@@ -299,6 +303,7 @@
       <v-list-group
          no-action
         prepend-icon="settings_remote"
+        active-class="error--text"
       >
        <template v-slot:activator>
           <v-list-tile>
@@ -442,6 +447,7 @@ isFullscreen : false,
           snackbar: false,
           sheet: false,
           colorSnackbar: 'success',
+          listeningPort: 5000,
 
           headers: [
             { key: 'PatientId', 
@@ -588,9 +594,6 @@ self.tableData.unshift(
   
 })
 
-
-
-
 app.use(function(req, res){
   //res.ack is the ACK
   //acks are created automatically
@@ -611,7 +614,7 @@ app.use(function(err, req, res) {
 });
 
 //Listen on port 7777
-app.start(9007);
+app.start(self.listeningPort);
 ///////////////////SERVER/////////////////////
 
 }

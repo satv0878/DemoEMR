@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios'
-
-
 import Vuetify from 'vuetify'
 
 
@@ -42,11 +40,22 @@ library.add(
 dom.watch()
 
 
-Vue.use(Vuetify)
+
 Vue.use(axios)
 
+
+
 Vue.use(Vuetify, {
-  iconfont: 'mdi'
+  iconfont: 'mdi', 
+  theme: {
+    "primary": "#1976D2",
+    "secondary": "#424242",
+    "accent": "#82B1FF",
+    "error": "#ED252A",
+    "info": "#2196F3",
+    "success": "#4CAF50",
+    "warning": "#FB8C00"
+  }
 })
 
 Vue.config.productionTip = false
