@@ -1,6 +1,6 @@
 {
   "name": "DemoEMR",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "private": true,
   "repository": "https://github.com/satv0878/DemoEMR",
   "author": "satv0878",
@@ -14,7 +14,8 @@
     "electron:serve": "vue-cli-service electron:serve",
     "gh-publish": "electron-builder --x64 -p always",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps", 
+    "build:android": "expo build:android"
   },
   "main": "background.js",
   "dependencies": {

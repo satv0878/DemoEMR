@@ -18,7 +18,7 @@
   <v-spacer class="ma-2"></v-spacer>
   <div>
     <span class="white--text" >{{UserLabel}}: </span>
-    <span class="white--text" style=" font-size:large" > {{this.tableData[0].UserId}}</span>
+    <span class="white--text" style=" font-size:large" > {{this.displayUserID}}</span>
     <v-divider class="ma-2" vertical inset></v-divider>
    <font-awesome-icon :icon="['far', 'user-circle']"   size="2x"  style="color:#323232"/>
   </div>
@@ -45,7 +45,7 @@
 
         <v-flex pr-4>
           <div class="text-xs-right" >
-            <h1 v-if="tableData[1]">{{this.tableData[0].PatientId}}</h1>
+            <h1 >{{this.displayPatientID}}</h1>
           </div>
            </v-flex>
          </v-layout>
@@ -68,7 +68,7 @@
 
         <v-flex pr-4>
           <div class="text-xs-right" >
-              <h1 v-if="tableData[1]">{{this.tableData[0].MeasurementDevice.DeviceName}}{{this.tableData[0].MeasurementDevice.DeviceSerialnumber}}</h1>
+              <h1 >{{this.displaySerialNumber}}</h1>
           </div>
            </v-flex>
          </v-layout>
@@ -83,9 +83,9 @@
        <v-flex >
         <v-card-title Weight>
             <div class="text-xs-left pl-2"  style=" font-weight:bold" >Weight - </div>
-                <div v-if="tableData[1]" class="text-xs-right pl-1">
-            <span v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementUnit}}</span>
-            <span v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementUnit}}</span>
+                <div class="text-xs-right pl-1">
+            <span >{{this.displayWeightUnit}}</span>
+          
           </div>
             </v-card-title>
         </v-flex>
@@ -94,11 +94,10 @@
           <v-divider class="ma-3"></v-divider>
 
 
-      <v-flex v-if="tableData[1]" xs6 pr-4>
-          <div v-if="tableData[1]" class="text-xs-right">
-            <h1 v-if="tableData[0].MeasurementType == 'Weight'">{{this.tableData[0].MeasurementValue}} {{this.tableData[0].MeasurementUnit}}</h1>
-            <h1 v-else-if="tableData[1].MeasurementType == 'Weight'">{{this.tableData[1].MeasurementValue}} {{this.tableData[1].MeasurementUnit}}</h1>
-            <h1 v-else>-</h1>
+      <v-flex  xs6 pr-4>
+          <div  class="text-xs-right">
+            <h1 >{{this.displayWeight}} {{this.displayWeightUnit}}</h1>
+           
           </div>
 
       </v-flex>
@@ -116,9 +115,9 @@
         <v-card-title Height>
                  <div class="text-xs-left pl-2"  style=" font-weight:bold" >Height - </div>
      
-            <div v-if="tableData[1]" class="text-xs-right  pl-1">
-            <span v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementUnit}}</span>
-            <span v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementUnit}}</span>
+            <div  class="text-xs-right  pl-1">
+            <span>{{this.displayHeightUnit}}</span>
+           
 
           </div>
             </v-card-title>
@@ -126,13 +125,10 @@
         
           <v-divider class="ma-3"></v-divider>
 
-        <v-flex v-if="tableData[1]" xs6 pr-4>
-          <div v-if="tableData[1]" class="text-xs-right">
-            <h1 v-if="tableData[0].MeasurementType == 'Height'">{{this.tableData[0].MeasurementValue}} {{this.tableData[0].MeasurementUnit}}</h1>
-            <h1 v-else-if="tableData[1].MeasurementType == 'Height'">{{this.tableData[1].MeasurementValue}} {{this.tableData[1].MeasurementUnit}}</h1>
-            <h1 v-else>-</h1>
+        <v-flex  xs6 pr-4>
+          <div class="text-xs-right">
+            <h1 >{{this.displayHeight}} {{this.displayHeightUnit}}</h1>
           </div>
-
         </v-flex>
         </v-layout>
       </v-card>
@@ -433,6 +429,13 @@ isFullscreen : false,
             
           }
           ], 
+         displayHeight: '-', 
+          displayWeight:'-', 
+          displayHeightUnit: '', 
+          displayWeightUnit:'', 
+          displayPatientID:'', 
+          displayUserID:'', 
+          displaySerialNumber:'', 
            appVersion : require('electron').remote.app.getVersion(), 
           dialog: false, 
           zoom: 1,
@@ -534,7 +537,8 @@ isFullscreen : false,
           created:function(){
    
 var self= this
-  
+
+
 var hl7 = require('simple-hl7');
 
 ///////////////////SERVER/////////////////////
@@ -547,10 +551,24 @@ app.use(function( req, res, next ) {
   
 var pv1 = req.msg.getSegment('PV1');
 
-console.log(req.msg)
+var countOBX = req.msg.getSegments("OBX").length
+
+console.log(req.msg.getSegments("OBX").length)
 console.log(req.msg.toString())
 
+      self.displayHeight = '-'
+      self.displayWeight = '-'
+      self.displaySerialNumber = ''
+      self.displayPatientID = ''
+      self.displayUserID = ''
+      self.displayHeightUnit = ''
+      self.displayWeightUnit = ''
+
 req.msg.getSegments("OBX").forEach(function(segment) {
+
+
+
+  
 
   var value = segment.fields[4].value[0][0];
   var user = segment.fields[15].value[0][0];
@@ -559,6 +577,30 @@ req.msg.getSegments("OBX").forEach(function(segment) {
   var time = segment.fields[13].value[0][0];
   var deviceName = segment.fields[17].value[0][0];
   //var serialnumber = segment.fields[17][4].value[0][0];
+
+
+
+
+                  if (type == 'Weight')
+                  {
+                  self.displayWeight= value.toString()
+                  self.displayWeightUnit = unit.toString()
+                  self.displaySerialNumber = deviceName.toString()
+                  self.displayPatientID = pv1.getComponent(19, 1).toString()
+                  self.displayUserID = user.toString()
+
+                  
+                  }
+                  if(type == 'Height')
+                  {
+
+                    self.displayHeight= value.toString()
+                    self.displayHeightUnit = unit.toString()
+                    self.displaySerialNumber = deviceName.toString()
+                    self.displayPatientID = pv1.getComponent(19, 1).toString()
+                    self.displayUserID = user.toString()
+                  }
+
 
 
 if(value != '')
